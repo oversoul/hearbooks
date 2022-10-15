@@ -40,11 +40,11 @@ class BookSlide extends StatelessWidget {
                 Text(
                   book.name,
                   style: const TextStyle(
-                    fontSize: 20,
+                    fontSize: 18,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                UIHelper.verticalSpaceSmall(),
+                UIHelper.verticalSpaceMedium(),
                 Text("Chapter 1 - ${book.time}"),
                 UIHelper.verticalSpaceLarge(),
                 InkWell(

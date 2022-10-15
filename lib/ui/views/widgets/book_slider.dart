@@ -39,10 +39,13 @@ class _BookSliderState extends State<BookSlider> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text("Listening Now", style: TextStyle(fontSize: 24)),
-                IconButton(
-                  icon: const Icon(Icons.search),
-                  onPressed: () {},
+                const Text(
+                  "Listening Now",
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                ),
+                InkWell(
+                  child: Image.asset("assets/search.png", height: 32),
+                  onTap: () {},
                 ),
               ],
             ),

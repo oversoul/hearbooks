@@ -93,7 +93,7 @@ class _BookCoverState extends State<BookCover>
                   decoration: BoxDecoration(
                     color: widget.color,
                     image: DecorationImage(
-                      image: NetworkImage(widget.image),
+                      image: AssetImage(widget.image),
                       fit: BoxFit.cover,
                     ),
                     borderRadius: const BorderRadius.all(Radius.circular(4)),
