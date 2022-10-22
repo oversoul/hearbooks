@@ -1,16 +1,12 @@
 # hearbooks
 
-A new Flutter project.
+An implementation of a UI found on instagram by [wahab.xyz](https://www.instagram.com/p/CjaZx6ZLXe0/)
 
-## Getting Started
+# Video showing the output
 
-This project is a starting point for a Flutter application.
+[video](https://github.com/oversoul/hearbooks/video.mp4)
 
-A few resources to get you started if this is your first Flutter project:
+# Notes
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+some parts of the code are intentionally made complex, to avoid some minor visual bugs.
+for example, when the book opens, it doesn't cover the next page on `PageView`.
