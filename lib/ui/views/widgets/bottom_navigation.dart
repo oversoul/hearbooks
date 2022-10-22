@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BottomNavigation extends StatelessWidget {
-  final Color color;
-  const BottomNavigation(this.color, {super.key});
+  const BottomNavigation({super.key});
 
   @override
   Widget build(BuildContext context) {

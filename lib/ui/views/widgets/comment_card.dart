@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 
 class CommentCard extends StatefulWidget {
   final void Function() onCancel;
-  const CommentCard({super.key, required this.onCancel});
+  final bool isComment;
+  const CommentCard({
+    super.key,
+    this.isComment = false,
+    required this.onCancel,
+  });
 
   @override
   State<CommentCard> createState() => _CommentCardState();
@@ -29,31 +34,56 @@ class _CommentCardState extends State<CommentCard> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: const [
               Text("Many more dark lines..."),
-              CircleAvatar(),
+              CircleAvatar(backgroundColor: Colors.grey),
             ],
           ),
           Expanded(child: Container()),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              TextButton(
-                onPressed: widget.onCancel,
-                child: const Text(
-                  "CANCEL",
-                  style: TextStyle(color: Colors.grey),
-                ),
-              ),
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  "POST",
-                  style: TextStyle(color: Colors.black),
-                ),
-              ),
-            ],
-          ),
+          footer(),
         ],
       ),
+    );
+  }
+
+  Widget footer() {
+    if (widget.isComment) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          TextButton(
+            onPressed: widget.onCancel,
+            child: const Text("CANCEL", style: TextStyle(color: Colors.grey)),
+          ),
+          TextButton(
+            onPressed: () {},
+            child: const Text("POST", style: TextStyle(color: Colors.black)),
+          ),
+        ],
+      );
+    }
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        TextButton(
+          onPressed: () {},
+          child: Row(
+            children: const [
+              Icon(Icons.comment, size: 16),
+              SizedBox(width: 5),
+              Text("7"),
+            ],
+          ),
+        ),
+        TextButton(
+          onPressed: () {},
+          child: Row(
+            children: const [
+              Icon(Icons.favorite, size: 16),
+              SizedBox(width: 5),
+              Text("22"),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
-class AnimatedPos extends ImplicitlyAnimatedWidget {
+class AnimatedRotY extends ImplicitlyAnimatedWidget {
   final double position;
   final Widget? child;
+  final Widget? backWidget;
+  final double? threshold;
 
-  const AnimatedPos({
+  const AnimatedRotY({
     super.key,
     this.child,
+    this.backWidget,
+    this.threshold,
     required super.duration,
     super.curve = Curves.linear,
     required this.position,
@@ -14,10 +18,10 @@ class AnimatedPos extends ImplicitlyAnimatedWidget {
 
   @override
   ImplicitlyAnimatedWidgetState<ImplicitlyAnimatedWidget> createState() =>
-      _AnimatedPosState();
+      _AnimatedRotYState();
 }
 
-class _AnimatedPosState extends AnimatedWidgetBaseState<AnimatedPos> {
+class _AnimatedRotYState extends AnimatedWidgetBaseState<AnimatedRotY> {
   Tween<dynamic>? _position;
 
   @override
@@ -27,8 +31,18 @@ class _AnimatedPosState extends AnimatedWidgetBaseState<AnimatedPos> {
         ..setEntry(3, 2, 0.001)
         ..rotateY(_position?.evaluate(animation)),
       alignment: Alignment.centerLeft,
-      child: widget.child,
+      child: showWidget(),
     );
+  }
+
+  Widget? showWidget() {
+    if (widget.backWidget == null || widget.threshold == null) {
+      return widget.child;
+    }
+
+    return ((_position?.evaluate(animation) > widget.threshold))
+        ? widget.backWidget
+        : widget.child;
   }
 
   @override
@@ -36,7 +50,7 @@ class _AnimatedPosState extends AnimatedWidgetBaseState<AnimatedPos> {
     _position = visitor(
       _position,
       widget.position,
-      (dynamic value) => Tween<double>(begin: value),
+      (value) => Tween<double>(begin: value),
     );
   }
 }

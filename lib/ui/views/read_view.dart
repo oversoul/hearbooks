@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hearbooks/plugins/animated_pos.dart';
-import 'package:hearbooks/ui/views/widgets/comment_card.dart';
+import 'package:flutter/services.dart';
+import 'package:hearbooks/plugins/animated_roty.dart';
+import 'package:hearbooks/ui/views/widgets/comments_list.dart';
 
 class ReadView extends StatefulWidget {
   const ReadView({super.key});
@@ -11,7 +12,17 @@ class ReadView extends StatefulWidget {
 
 class _ReadViewState extends State<ReadView> {
   double position = 0;
-  double scale = 1;
+  double opacity = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      setState(() {
+        opacity = 1;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,36 +45,37 @@ class _ReadViewState extends State<ReadView> {
                 setState(() {});
               },
               onHorizontalDragEnd: (details) {
-                if (position < .1) {
+                if (position < -.1) {
                   position = -.5;
-                  scale = .9;
                 } else {
                   position = 0;
-                  scale = 1.0;
                 }
                 setState(() {});
               },
               child: AnimatedScale(
-                scale: scale,
+                scale: 1 - ((position * -2) * .1),
                 duration: const Duration(milliseconds: 200),
-                child: AnimatedPos(
+                child: AnimatedRotY(
                   duration: const Duration(milliseconds: 200),
-                  //position: -.3,
                   position: position,
                   child: ClipRRect(
                     borderRadius: BorderRadius.all(
-                      Radius.circular(scale == .9 ? 20 : 0),
+                      Radius.circular((position * -2) * 20),
                     ),
                     child: Scaffold(
                       appBar: header(),
                       backgroundColor: Colors.white,
-                      body: content(),
+                      body: AnimatedOpacity(
+                        opacity: opacity,
+                        duration: const Duration(milliseconds: 300),
+                        child: content(),
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-            if (scale != 1)
+            if (position == -.5)
               Container(
                 color: Colors.black54,
                 height: double.infinity,
@@ -76,9 +88,9 @@ class _ReadViewState extends State<ReadView> {
                       top: height / 4,
                       child: CommentsList(
                         onClose: () {
-                          position = 0;
-                          scale = 1;
-                          setState(() {});
+                          setState(() {
+                            position = 0;
+                          });
                         },
                       ),
                     ),
@@ -93,16 +105,10 @@ class _ReadViewState extends State<ReadView> {
 
   PreferredSizeWidget header() {
     return AppBar(
-      elevation: 0,
-      centerTitle: true,
-      foregroundColor: Colors.black,
       title: const Text("Chapter I"),
-      backgroundColor: Colors.transparent,
       leading: IconButton(
         icon: const Icon(Icons.arrow_back_ios),
-        onPressed: () {
-          Navigator.pop(context, true);
-        },
+        onPressed: () => Navigator.pop(context, true),
       ),
       actions: [
         IconButton(icon: const Icon(Icons.list), onPressed: () {}),
@@ -151,62 +157,6 @@ class _ReadViewState extends State<ReadView> {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class CommentsList extends StatefulWidget {
-  final void Function() onClose;
-  const CommentsList({super.key, required this.onClose});
-
-  @override
-  State<CommentsList> createState() => _CommentsListState();
-}
-
-class _CommentsListState extends State<CommentsList> {
-  double initialY = 0;
-  late ScrollController _controller;
-
-  @override
-  void initState() {
-    _controller = ScrollController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width - 80;
-
-    return Listener(
-      onPointerDown: (event) {
-        setState(() {
-          initialY = event.position.dx;
-        });
-      },
-      onPointerUp: (opm) {
-        if (_controller.offset > 0.0) return;
-        if (opm.position.dx - initialY > 100) {
-          widget.onClose();
-        }
-      },
-      child: ListView.builder(
-        controller: _controller,
-        itemCount: 5,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (_, int index) {
-          return SizedBox(
-            width: width,
-            child: CommentCard(onCancel: widget.onClose),
-          );
-        },
-        padding: const EdgeInsets.only(left: 20),
       ),
     );
   }

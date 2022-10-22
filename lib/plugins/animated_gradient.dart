@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class AnimatedBox extends ImplicitlyAnimatedWidget {
+class AnimatedGradient extends ImplicitlyAnimatedWidget {
   final Color backgroundColor;
   final Widget? child;
 
-  const AnimatedBox({
+  const AnimatedGradient({
     super.key,
     this.child,
     required super.duration,
@@ -14,10 +14,10 @@ class AnimatedBox extends ImplicitlyAnimatedWidget {
 
   @override
   ImplicitlyAnimatedWidgetState<ImplicitlyAnimatedWidget> createState() =>
-      _AnimatedBoxState();
+      _AnimatedGradientState();
 }
 
-class _AnimatedBoxState extends AnimatedWidgetBaseState<AnimatedBox> {
+class _AnimatedGradientState extends AnimatedWidgetBaseState<AnimatedGradient> {
   Tween<dynamic>? _colorTween;
 
   @override

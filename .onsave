@@ -3,7 +3,7 @@ VAR:
 ENV:
     PATH: /usr/bin/
 # optional
-# CONSOLE : 'right'
+CONSOLE : 'right'
 
 LISTENER:
     # dart reload compiler:
